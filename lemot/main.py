@@ -1,7 +1,24 @@
 
 import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
+import ssl
+
+# Membuat fungsi untuk memeriksa apakah koleksi data sudah terinstal
+def check_and_download(collection_name):
+    try:
+        nltk.data.find(collection_name)
+    except LookupError:
+        print(f"{collection_name} belum terinstal. Mengunduh koleksi data...")
+        nltk.download(collection_name)
+        print(f"{collection_name} berhasil diunduh.")
+    else:
+        print(f"{collection_name} sudah terinstal.")
+
+# Memeriksa dan mengunduh koleksi data 'punkt'
+check_and_download('punkt')
+
+# Memeriksa dan mengunduh koleksi data 'stopwords'
+check_and_download('stopwords')
+
 
 import pandas as pd
 import streamlit as st
