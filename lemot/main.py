@@ -3,12 +3,12 @@
 import pandas as pd
 import streamlit as st
 import re
-import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 import pickle
 import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
 
 stopwords_ind = stopwords.words('indonesian')
@@ -39,7 +39,7 @@ def remove_stop_words(text):
           clean_words.append(word)
   return " ".join(clean_words)
 
-from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+
 
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
