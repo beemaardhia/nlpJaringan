@@ -43,7 +43,7 @@ def casefolding(text):
     text = re.sub(r'\busername\b', 'username', text, flags=re.IGNORECASE)  # Mengganti 'username' dengan 'username' (case-insensitive)
     return text
 
-key_norm = pd.read_csv('key_norm_indo.csv')
+key_norm = pd.read_csv('lemot/key_norm_indo.csv')
 
 def text_normalize(text):
   text = ' '.join([key_norm[key_norm['singkat'] == word]['hasil'].values[0] if (key_norm['singkat'] == word).any() else word for word in text.split()])
@@ -76,8 +76,8 @@ def text_preprocessing_process(text):
   return text
 
 # Mengimpor model dari file .joblib
-model = joblib.load('nlpJarinan.joblib')
-vocab = pickle.load(open('kbest_feature.pickle', 'rb'))
+model = joblib.load('lemot/nlpJarinan.joblib')
+vocab = pickle.load(open('lemot/kbest_feature.pickle', 'rb'))
 
 def predict_sentiment(text):
     preprocessed_text = text_preprocessing_process(text)
