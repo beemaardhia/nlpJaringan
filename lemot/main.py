@@ -89,6 +89,9 @@ def predict_sentiment(text):
 # Tampilan Streamlit
 st.header('Sentiment Analysis Komentar Provider')
 
+# Watermark
+st.markdown('<p style="color:gray; font-size:small;text-align:center;">created by bimaardhiavardhan</p>', unsafe_allow_html=True)
+
 with st.expander('Analyze Text'):
     input_text = st.text_area('Ketik Komentar Provider:', '')  # Menerima input teks dari pengguna
 
