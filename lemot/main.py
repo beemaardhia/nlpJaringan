@@ -1,6 +1,5 @@
 
 import nltk
-import ssl
 
 # Membuat fungsi untuk memeriksa apakah koleksi data sudah terinstal
 def check_and_download(collection_name):
