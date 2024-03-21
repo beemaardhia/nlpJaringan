@@ -87,10 +87,10 @@ def predict_sentiment(text):
 
 
 # Tampilan Streamlit
-st.header('Sentiment Analysis')
+st.header('Sentiment Analysis Komentar Provider')
 
 with st.expander('Analyze Text'):
-    input_text = st.text_area('Text here:', '')  # Menerima input teks dari pengguna
+    input_text = st.text_area('Ketik Komentar Provider:', '')  # Menerima input teks dari pengguna
 
     if st.button('Analyze'):  # Tombol untuk melakukan analisis
         if input_text:
