@@ -1,4 +1,5 @@
-
+import nltk
+nltk.download()
 
 import pandas as pd
 import streamlit as st
