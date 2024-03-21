@@ -1,5 +1,4 @@
-!pip install nltk
-!pip install pickle
+
 
 import pandas as pd
 import streamlit as st
@@ -7,6 +6,8 @@ import re
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 import pickle
+import joblib
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 stopwords_ind = stopwords.words('indonesian')
@@ -53,9 +54,6 @@ def text_preprocessing_process(text):
   text = remove_stop_words(text)
   text = stemming(text)
   return text
-
-import joblib
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Mengimpor model dari file .joblib
 model = joblib.load('nlpJarinan.joblib')
