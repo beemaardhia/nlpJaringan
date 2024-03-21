@@ -1,5 +1,5 @@
-pip install nltk
-pip install pickle
+!pip install nltk
+!pip install pickle
 
 import pandas as pd
 import streamlit as st
