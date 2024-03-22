@@ -99,3 +99,45 @@ with st.expander('Analyze Text'):
         if input_text:
             prediction = predict_sentiment(input_text)
             st.write('Hasil Prediksi:', prediction)
+
+# Bagian untuk menganalisis file CSV yang diunggah
+with st.expander('Analyze CSV'):
+    upl = st.file_uploader('Upload file')
+
+    if upl:
+        df = pd.read_excel(upl)
+        del df['Unnamed: 0']
+
+        # Preprocessing pada teks di kolom 'tweets'
+        df['preprocessed_text'] = df['tweets'].apply(text_preprocessing_process)
+
+        # Prediksi sentimen menggunakan model yang sama
+        df['predicted_sentiment'] = df['preprocessed_text'].apply(predict_sentiment)
+
+        # Analisis sentimen
+        def analyze_sentiment(prediction):
+            if prediction == 1:
+                return 'Positive'
+            elif prediction == 0:
+                return 'Neutral'
+            else:
+                return 'Negative'
+
+        df['sentiment_analysis'] = df['predicted_sentiment'].apply(analyze_sentiment)
+
+        st.write(df.head(10))
+
+        # Mendownload hasil analisis sebagai file CSV
+        @st.cache
+        def convert_df(df):
+            # Cache the conversion to prevent computation on every rerun
+            return df.to_csv().encode('utf-8')
+
+        csv = convert_df(df)
+
+        st.download_button(
+            label="Download data as CSV",
+            data=csv,
+            file_name='sentiment_analysis.csv',
+            mime='text/csv',
+        )
