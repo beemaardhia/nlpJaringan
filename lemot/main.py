@@ -85,6 +85,13 @@ def predict_sentiment(text):
     result = model.predict(tf_idf_vec.fit_transform([preprocessed_text]))
     return result
 
+def convert_encoding_to_utf8(upl):
+    content = upl.read().decode('ANSI', errors='ignore')
+    content_utf8 = content.encode('utf-8')
+    upl.seek(0)
+    upl.write(content_utf8)
+    upl.seek(0)
+
 
 # Tampilan Streamlit
 st.header('Sentiment Analysis Komentar Provider')
@@ -100,35 +107,29 @@ with st.expander('Analyze Text'):
             prediction = predict_sentiment(input_text)
             st.write('Hasil Prediksi:', prediction)
 
-# Bagian untuk menganalisis file CSV yang diunggah
 with st.expander('Analyze CSV'):
     upl = st.file_uploader('Upload file')
+    
 
     if upl:
-        df = pd.read_excel(upl)
-        del df['Unnamed: 0']
+        
+        convert_encoding_to_utf8(upl)
+        
+        df = pd.read_csv(upl, on_bad_lines='skip')
+        # del df['Unnamed: 0']
 
         # Preprocessing pada teks di kolom 'tweets'
-        df['preprocessed_text'] = df['tweets'].apply(text_preprocessing_process)
+        df['preprocessed_text'] = df['Text Tweet'].apply(text_preprocessing_process)
 
-        # Prediksi sentimen menggunakan model yang sama
-        df['predicted_sentiment'] = df['preprocessed_text'].apply(predict_sentiment)
 
-        # Analisis sentimen
-        def analyze_sentiment(prediction):
-            if prediction == 1:
-                return 'Positive'
-            elif prediction == 0:
-                return 'Neutral'
-            else:
-                return 'Negative'
+        # Terapkan fungsi analisis sentimen pada setiap baris dalam DataFrame
+        df['sentiment_analysis'] = df['preprocessed_text'].apply(predict_sentiment)
 
-        df['sentiment_analysis'] = df['predicted_sentiment'].apply(analyze_sentiment)
-
-        st.write(df.head(10))
+        st.write(df[df['sentiment_analysis'] == 'positive'].head())
+        st.write(df[df['sentiment_analysis'] == 'negative'].head())
 
         # Mendownload hasil analisis sebagai file CSV
-        @st.cache
+        @st.cache_data
         def convert_df(df):
             # Cache the conversion to prevent computation on every rerun
             return df.to_csv().encode('utf-8')
