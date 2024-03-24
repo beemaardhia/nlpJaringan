@@ -113,7 +113,7 @@ with st.expander('Analyze CSV'):
 
     if upl:
         
-        convert_encoding_to_utf8(upl)
+        #convert_encoding_to_utf8(upl)
         
         df = pd.read_csv(upl, on_bad_lines='skip')
         # del df['Unnamed: 0']
